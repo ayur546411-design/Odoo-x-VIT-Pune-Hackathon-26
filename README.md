@@ -85,15 +85,14 @@ Built using <b>Kotlin + Jetpack Compose</b> for modern, fast, and responsive UI.
 ---
 
 <h2 align="center">🧠 System Architecture</h2>
-
-```mermaid id="l0h3xb"
-graph LR
-A[🌐 React Web App] --> B[⚡ FastAPI Backend]
-C[📱 Android App (Kotlin + Compose)] --> B
-B --> D[(🗄️ PostgreSQL)]
-B --> E[📸 OCR Engine]
-B --> F[🌍 External APIs]
-```
+graph TD
+User --> Web[React Web App]
+User --> Mobile[Android App Kotlin Compose]
+Web --> Backend[FastAPI Backend]
+Mobile --> Backend
+Backend --> DB[(PostgreSQL Database)]
+Backend --> OCR[OCR Engine]
+Backend --> API[External APIs]
 
 ---
 
