@@ -1,8 +1,8 @@
 import api from './axios'
 
-export const loginUser = (credentials) => api.post('/auth/login', credentials)
+export const sendOtp = (data) => api.post('/auth/send-otp', data)
 
-export const signupUser = (data) => api.post('/auth/register', data)
+export const verifyOtp = (data) => api.post('/auth/verify-otp', data)
 
 export const getProfile = () => api.get('/auth/profile')
 

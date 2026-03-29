@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { loginUser, signupUser, logoutUser } from '../api/auth'
+import { sendOtp, verifyOtp, logoutUser } from '../api/auth'
 import toast from 'react-hot-toast'
 
 const AuthContext = createContext(null)
@@ -20,33 +20,29 @@ export function AuthProvider({ children }) {
     setLoading(false)
   }, [])
 
-  const login = async (credentials) => {
+  const requestOtp = async (email) => {
     try {
-      const res = await loginUser(credentials)
-      const { token, user: userData } = res.data
-      localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(userData))
-      setUser(userData)
-      toast.success('Welcome back!')
-      return userData
+      await sendOtp({ email })
+      toast.success('OTP sent to your email!')
     } catch (err) {
-      const msg = err.response?.data?.message || 'Login failed'
+      const msg = err.response?.data?.detail || err.response?.data?.message || 'Failed to send OTP'
       toast.error(msg)
       throw err
     }
   }
 
-  const signup = async (data) => {
+  // Accepts an object matching the OtpVerify schema from Backend
+  const verifyOtpAndLogin = async (payload) => {
     try {
-      const res = await signupUser(data)
-      const { token, user: userData } = res.data
-      localStorage.setItem('token', token)
+      const res = await verifyOtp(payload)
+      const { access_token, user: userData } = res.data
+      localStorage.setItem('token', access_token)
       localStorage.setItem('user', JSON.stringify(userData))
       setUser(userData)
-      toast.success('Account created!')
+      toast.success('Authentication successful!')
       return userData
     } catch (err) {
-      const msg = err.response?.data?.message || 'Signup failed'
+      const msg = err.response?.data?.detail || err.response?.data?.message || 'Invalid or expired OTP'
       toast.error(msg)
       throw err
     }
@@ -59,7 +55,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, loading, requestOtp, verifyOtpAndLogin, logout }}>
       {children}
     </AuthContext.Provider>
   )
