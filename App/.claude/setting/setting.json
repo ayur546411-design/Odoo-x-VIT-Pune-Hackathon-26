@@ -1,0 +1,41 @@
+{
+    "version": "1.0",
+    "project_name": "ExpenseFlow",
+    "description": "AI-Powered Expense Reimbursement & Multi-Level Approval Engine (Android + FastAPI + MySQL)",
+    "model": "claude-sonnet-4-20250514",
+    "permissions": {
+        "allow_bash": true,
+        "allow_file_write": true,
+        "allow_network": true
+    },
+    "environment": {
+        "python_version": "3.11",
+        "kotlin_version": "1.9",
+        "database": "mysql",
+        "android_min_sdk": 26,
+        "android_target_sdk": 34
+    },
+    "auto_context": [
+        "CLAUDE.md",
+        "rules/*.md"
+    ],
+    "ignore_patterns": [
+        "__pycache__",
+        ".venv",
+        "venv",
+        ".gradle",
+        "build",
+        "*.pyc",
+        ".env",
+        "uploads/receipts/*",
+        ".idea",
+        "*.apk",
+        "local.properties"
+    ],
+    "test_commands": {
+        "backend": "cd backend && pytest tests/ -v",
+        "android_unit": "cd android && ./gradlew test",
+        "android_instrumented": "cd android && ./gradlew connectedAndroidTest",
+        "lint_backend": "cd backend && ruff check app/"
+    }
+}
