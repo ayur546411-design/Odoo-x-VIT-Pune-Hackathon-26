@@ -982,10 +982,6 @@ npm run build
 
 ---
 
-## 📜 License
-
-<div align="center">
-
 <br/>
 
 Built with ❤️ for the **Odoo x VIT Pune Hackathon 2026**
